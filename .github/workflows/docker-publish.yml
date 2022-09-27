@@ -11,7 +11,9 @@ on:
 
   # Run tests for any PRs.
   pull_request:
-    types: [opened, edited]
+    types:
+      - opened
+      - edited
 
 env:
   REDBPF_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/redbpf-build
@@ -226,7 +228,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Set image name lowercase
         run: |
           REDBPF_IMAGE_NAME=${REDBPF_IMAGE_NAME,,}
