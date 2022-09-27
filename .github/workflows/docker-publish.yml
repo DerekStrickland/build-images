@@ -12,20 +12,16 @@ on:
   # Run tests for any PRs.
   pull_request:
     types: [opened, edited]
-    
+
 env:
-  OWNER: '${{ github.repository_owner }}'
-  REDBPF_IMAGE_NAME: ghcr.io/${{ env.OWNER_LC }}/redbpf-build
-  IMAGE_NAME: ghcr.io/${{ env.OWNER_LC }}/foniod-build
+  REDBPF_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/redbpf-build
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/foniod-build
   MAIN_BRANCH: main
 
 jobs:
   redbpf-buildx-aarch64-and-push:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: set lower case owner name
-        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -53,6 +49,10 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           [ "$VERSION" == "$MAIN_BRANCH" ] && VERSION=latest
           echo "version=$VERSION" >> $GITHUB_ENV
+      -
+        name: Set image name lowercase
+        run: |
+          REDBPF_IMAGE_NAME=${REDBPF_IMAGE_NAME,,}
       -
         name: Build aarch64 Debian11 for RedBPF
         id: aarch64-debian11
@@ -109,12 +109,13 @@ jobs:
   redbpf-build-x86_64-and-push:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: set lower case owner name
-        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v2
+      -
+        name: Set image name lowercase
+        run: |
+          REDBPF_IMAGE_NAME=${REDBPF_IMAGE_NAME,,}
       -
         name: Set up version information
         run: |
@@ -190,12 +191,13 @@ jobs:
   redbpf-build-x86_64-gentoo-and-push:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: set lower case owner name
-        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v2
+      -
+        name: Set image name lowercase
+        run: |
+          REDBPF_IMAGE_NAME=${REDBPF_IMAGE_NAME,,}
       -
         name: Set up version information
         run: |
@@ -224,9 +226,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: set lower case owner name
-        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+      
+      - name: Set image name lowercase
+        run: |
+          REDBPF_IMAGE_NAME=${REDBPF_IMAGE_NAME,,}
 
       - name: Set up version information
         run: |
