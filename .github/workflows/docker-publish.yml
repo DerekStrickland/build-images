@@ -12,16 +12,20 @@ on:
   # Run tests for any PRs.
   pull_request:
     types: [opened]
-
+    
 env:
-  REDBPF_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/redbpf-build
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/foniod-build
+  OWNER: '${{ github.repository_owner }}'
+  REDBPF_IMAGE_NAME: ghcr.io/${{ env.OWNER_LC }}/redbpf-build
+  IMAGE_NAME: ghcr.io/${{ env.OWNER_LC }}/foniod-build
   MAIN_BRANCH: main
 
 jobs:
   redbpf-buildx-aarch64-and-push:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: set lower case owner name
+        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -105,6 +109,9 @@ jobs:
   redbpf-build-x86_64-and-push:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: set lower case owner name
+        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -183,6 +190,9 @@ jobs:
   redbpf-build-x86_64-gentoo-and-push:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: set lower case owner name
+        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -214,6 +224,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - name: set lower case owner name
+        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
 
       - name: Set up version information
         run: |
