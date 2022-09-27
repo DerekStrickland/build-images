@@ -39,14 +39,15 @@ RUN curl https://sh.rustup.rs -sSf > rustup.sh \
 
 COPY extract-btf-aarch64.rs .
 
+RUN wget https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux \
+      && sh extract-vmlinux /boot/vmlinuz-* > /boot/vmlinux \
+      && rm -f extract-vmlinux;
+
 RUN if [ x$TARGETPLATFORM = x"linux/arm64" ]; then \
       rustc extract-btf-aarch64.rs \
-      && ./extract-btf-aarch64 /boot/vmlinuz-* /boot/vmlinux-btf; \
-    else \
-      wget https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux \
-      && sh extract-vmlinux /boot/vmlinuz-* > /boot/vmlinux \
-      && rm -f extract-vmlinux; \
+      && ./extract-btf-aarch64 /boot/vmlinux /boot/vmlinux-btf; \
     fi
+    
 RUN rm -f extract-btf-aarch64.rs
 
 WORKDIR /build
