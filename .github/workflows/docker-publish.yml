@@ -11,7 +11,7 @@ on:
 
   # Run tests for any PRs.
   pull_request:
-    types: [opened,edited]
+    types: [opened, edited]
     
 env:
   OWNER: '${{ github.repository_owner }}'
