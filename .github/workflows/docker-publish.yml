@@ -11,7 +11,7 @@ on:
 
   # Run tests for any PRs.
   pull_request:
-    types: [opened]
+    types: [opened,edited]
     
 env:
   OWNER: '${{ github.repository_owner }}'
@@ -224,7 +224,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: set lower case owner name
         run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
 
