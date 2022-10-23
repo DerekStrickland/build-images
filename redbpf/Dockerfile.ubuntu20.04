@@ -15,7 +15,7 @@ RUN apt-get update \
         software-properties-common \
         lsb-release \
         libelf-dev \
-        linux-headers-generic \
+        linux-headers-5.15.0-50-generic \
     && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh 14 && rm -f ./llvm.sh
 RUN apt-get -y install \
     "linux-image-$(ls /lib/modules)" \
