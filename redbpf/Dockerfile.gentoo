@@ -13,7 +13,8 @@ RUN emerge --sync \
     && emerge sys-devel/llvm \
         sys-devel/clang \
         virtual/libelf \
-        sys-kernel/gentoo-kernel-bin
+        sys-kernel/gentoo-kernel-bin \
+        sys-kernel/linux-headers
 
 RUN ln -sf /usr/lib/llvm/14/bin/llvm-config /usr/bin/llvm-config
 RUN llvm-config --version | grep -q '^14'
