@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - enable-manual-action-runs
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -14,6 +15,18 @@ on:
     types:
       - opened
       - edited
+  
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
 
 env:
   REDBPF_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/redbpf-build
